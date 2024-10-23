@@ -3,6 +3,16 @@
   <POU Name="ServoAxis" Id="{26452b28-7ab5-49f1-a26d-862a61902626}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ServoAxis EXTENDS ParentAxis
 VAR
+	
+	_AxisReference				: AXIS_REF;
+	
+	_Enable						: MC_Power;
+	_ReadStatus					: MC_ReadStatus;
+	_Reset						: MC_Reset;
+	_MoveRelative				: MC_MoveRelative;
+	
+	_Status						: NcAxisRefStatus;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -10,11 +20,105 @@ END_VAR
     </Implementation>
     <Folder Name="METH" Id="{29812a1c-8682-40c9-b187-562c333ac7c7}" />
     <Folder Name="PROP" Id="{95b1584f-04a4-4070-99b8-73a50df63774}" />
+    <Method Name="CyclicUpdate" Id="{cf0f58ec-dc9a-4e00-98cf-928468696fb2}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD CyclicUpdate : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+_ClassRunningIndicatorToggle := NOT(_ClassRunningIndicatorToggle);
+
+_Enable(Axis := _AxisReference);
+_Reset(Axis := _AxisReference);
+_MoveRelative(Axis := _AxisReference);
+
+_ReadStatus
+(
+	Axis 					:= _AxisReference,
+	Enable 					:= TRUE,
+	Error 					=> _Status._Error,
+	ErrorID 				=> _Status._ErrorID,
+	ErrorStop 				=> _Status._ErrorStop,
+	Disabled 				=> _Status._Disabled,
+	Stopping 				=> _Status._Stopping,
+	StandStill 				=> _Status._StandStill,
+	DiscreteMotion 			=> _Status._DiscreteMotion,
+	ContinuousMotion 		=> _Status._ContinuousMotion,
+	SynchronizedMotion 		=> _Status._SynchronizedMotion,
+	Homing 					=> _Status._Homing,
+	ConstantVelocity 		=> _Status._ConstantVelocity,
+	Accelerating 			=> _Status._Accelerating,
+	Decelerating 			=> _Status._Decelerating,
+	Status 					=> _Status._Status
+);
+
+_IsBusyMoving :=
+(
+	_ReadStatus.DiscreteMotion OR
+	_ReadStatus.ConstantVelocity OR
+	_ReadStatus.SynchronizedMotion
+);
+
+_IsBusyStopping :=
+(
+	_ReadStatus.Stopping
+);
+
+_IsReadyForCommand :=
+(
+	NOT(_ReadStatus.Disabled) AND
+	NOT(_IsBusyMoving) AND
+	NOT(_IsBusyStopping) AND
+	NOT(_ReadStatus.Error) AND
+	NOT(_ReadStatus.ErrorStop)
+);
+
+_IsDoneWithCommand :=
+(
+	_Reset.Done OR
+	_MoveRelative.Done
+);
+
+_IsInError :=
+(
+	_ReadStatus.Error
+);
+
+_CurrentErrorCode := _ReadStatus.ErrorID;
+	
+IF _Status._ErrorID <> 0 THEN
+	_PreviousErrorCode := _ReadStatus.ErrorID;
+END_IF
+
+_ErrorRTrig(CLK := _IsInError);
+IF _ErrorRTrig.Q THEN
+	_ErrorCount := _ErrorCount + 1;
+END_IF
+
+
+CyclicUpdate := 1;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="StartDisable" Id="{0978b676-9045-4216-aa0e-c51dea3ee422}" FolderPath="METH\">
       <Declaration><![CDATA[METHOD StartDisable : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartDisable := TRUE;
+        <ST><![CDATA[_Enable(Axis := _AxisReference);
+
+_Enable.Enable := FALSE;
+_Enable.Enable_Negative := FALSE;
+_Enable.Enable_Positive := FALSE;
+_Enable.Override := 0;
+
+IF NOT(_Enable.Status) THEN
+	StartDisable := TRUE;
+	RETURN;
+ELSE
+	;
+END_IF
+
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -22,7 +126,28 @@ RETURN;]]></ST>
       <Declaration><![CDATA[METHOD StartEnable : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartEnable := TRUE;
+        <ST><![CDATA[_Enable(Axis := _AxisReference);
+
+_Enable.Enable := TRUE;
+_Enable.Enable_Negative := TRUE;
+_Enable.Enable_Positive := TRUE;
+_Enable.Override := 100;
+
+IF _Enable.Error THEN
+	_Enable.Enable := FALSE;
+	StartEnable := FALSE;
+	RETURN;
+ELSE
+	;
+END_IF
+
+IF _Enable.Status THEN
+	StartEnable := TRUE;
+	RETURN;
+ELSE
+	;
+END_IF
+
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -30,7 +155,13 @@ RETURN;]]></ST>
       <Declaration><![CDATA[METHOD StartErrorChecking : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartErrorChecking := TRUE;
+        <ST><![CDATA[IF _IsInError THEN
+	StartErrorChecking := TRUE;
+	RETURN;
+ELSE
+	;
+END_IF
+
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -38,7 +169,27 @@ RETURN;]]></ST>
       <Declaration><![CDATA[METHOD StartMovement : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartMovement := TRUE;
+        <ST><![CDATA[_MoveRelative(Axis := _AxisReference);
+_MoveRelative.Distance := 100;
+_MoveRelative.Velocity := 20;
+_MoveRelative.Execute := TRUE;
+
+IF _MoveRelative.Error THEN
+	_MoveRelative.Execute := FALSE;
+	StartMovement := FALSE;
+	RETURN;
+ELSE
+	;
+END_IF
+
+IF _MoveRelative.Done THEN
+	_MoveRelative.Execute := FALSE;
+	StartMovement := TRUE;
+	RETURN;
+ELSE
+	;
+END_IF
+
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -46,27 +197,136 @@ RETURN;]]></ST>
       <Declaration><![CDATA[METHOD StartReset : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartReset := TRUE;
-RETURN;]]></ST>
+        <ST><![CDATA[_MoveRelative(Axis := _AxisReference);
+_Reset(Axis := _AxisReference);
+
+_MoveRelative.Execute := FALSE;
+
+_Reset.Execute := TRUE;
+
+IF _Reset.Error THEN
+	_Reset.Execute := FALSE;
+	StartReset := FALSE;
+	RETURN;
+ELSE
+	;
+END_IF
+
+IF _Reset.Done THEN
+	_Reset.Execute := FALSE;
+	StartReset := TRUE;
+ELSE
+	;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="ServoAxis">
       <LineId Id="9" Count="0" />
     </LineIds>
+    <LineIds Name="ServoAxis.CyclicUpdate">
+      <LineId Id="57" Count="0" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="17" />
+      <LineId Id="33" Count="6" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="77" Count="2" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="86" Count="1" />
+      <LineId Id="63" Count="2" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="82" Count="3" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="2" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="45" Count="2" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="91" Count="2" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="52" Count="0" />
+    </LineIds>
     <LineIds Name="ServoAxis.StartDisable">
-      <LineId Id="4" Count="1" />
+      <LineId Id="7" Count="5" />
+      <LineId Id="20" Count="7" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ServoAxis.StartEnable">
-      <LineId Id="4" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="2" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ServoAxis.StartErrorChecking">
-      <LineId Id="4" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
     </LineIds>
     <LineIds Name="ServoAxis.StartMovement">
-      <LineId Id="4" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="2" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="ServoAxis.StartReset">
-      <LineId Id="4" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="3" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="24" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

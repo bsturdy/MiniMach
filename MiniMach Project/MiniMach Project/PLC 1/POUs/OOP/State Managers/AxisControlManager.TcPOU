@@ -6,7 +6,8 @@ VAR
 	
 	// State machine for simple axis movement
 	// Aims to turn on an axis, command it do do a movement, then disable it
-	// Highest level state machine, called through ITF_CyclicUpdate interface
+	// Highest level state machine
+	// Call METHOD to run, call PROPERTY to switch axis
 	
 	_AxisControl			: ITF_AxisControl;
 	
@@ -28,6 +29,10 @@ END_VAR
 IF _AxisControl = 0 THEN
 	CyclicUpdate := 0;
 	RETURN;
+END_IF
+
+IF _AxisControl.StartErrorChecking() THEN
+	_LocalState := 99;
 END_IF
 
 // Turn axis on, execute its movement, turn axis off
@@ -52,9 +57,14 @@ CASE _LocalState OF
 		END_IF
 		
 	4:
-		_LocalState := 0;
+		_LocalState := 4;
 		CyclicUpdate := 1;
 		RETURN;
+		
+	99:
+		IF _AxisControl.StartReset() THEN
+			_LocalState := 0;
+		END_IF
 	
 END_CASE
 ]]></ST>
@@ -89,10 +99,14 @@ END_VAR
       <LineId Id="6" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="7" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="43" Count="1" />
       <LineId Id="38" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="14" Count="22" />
+      <LineId Id="45" Count="4" />
       <LineId Id="12" Count="1" />
       <LineId Id="39" Count="0" />
     </LineIds>

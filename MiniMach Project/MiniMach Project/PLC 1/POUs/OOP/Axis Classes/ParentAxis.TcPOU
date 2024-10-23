@@ -8,14 +8,23 @@ VAR
 	// DO NOT USE DIRECTLY 
 	// THIS IS A PARENT CLASS DESIGNED TO PROVIDE A BASE OF KEY VARIABLES / METHODS FOR SUB AXIS CLASSES
 	
-	_LocalState			: INT := 0;
-	_InternalCounter	: INT := 0;
+	_ClassRunningIndicatorToggle	: BOOL;
 	
-	_IsBusyMoving		: BOOL := FALSE;
-	_IsBusyStopping		: BOOL := FALSE;
-	_IsReadyForCommand	: BOOL := FALSE;
-	_IsInError			: BOOL := FALSE;
-	_IsDoneWithCommand	: BOOL := FALSE;
+	_LocalState						: INT := 0;
+	_InternalCounter				: INT := 0;
+	_i								: INT := 0;
+	_ErrorCount						: UDINT := 0;
+	_CurrentErrorCode				: UDINT := 0;
+	_PreviousErrorCode				: UDINT := 0;
+	
+	
+	_IsBusyMoving					: BOOL := FALSE;
+	_IsBusyStopping					: BOOL := FALSE;
+	_IsReadyForCommand				: BOOL := FALSE;
+	_IsDoneWithCommand				: BOOL := FALSE;
+	_IsInError						: BOOL := FALSE;
+	
+	_ErrorRTrig						: R_TRIG;
 	
 END_VAR
 ]]></Declaration>
