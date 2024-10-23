@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="ServoAxis" Id="{26452b28-7ab5-49f1-a26d-862a61902626}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ServoAxis EXTENDS ParentAxis
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="METH" Id="{29812a1c-8682-40c9-b187-562c333ac7c7}" />
+    <Folder Name="PROP" Id="{95b1584f-04a4-4070-99b8-73a50df63774}" />
+    <Method Name="StartDisable" Id="{0978b676-9045-4216-aa0e-c51dea3ee422}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartDisable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartDisable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartEnable" Id="{2b737eca-ff29-4152-bc27-b5c3e407fd90}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartEnable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartEnable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartErrorChecking" Id="{26ea8b5e-d8b0-4411-b8b7-aecbfb9a6f13}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartErrorChecking : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartErrorChecking := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartMovement" Id="{b63463d0-f34d-41ec-b50b-726fc4af6150}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartMovement : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartMovement := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartReset" Id="{964eb855-0bd1-4c99-ad94-d1876c6d809f}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartReset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartReset := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="ServoAxis">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="ServoAxis.StartDisable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ServoAxis.StartEnable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ServoAxis.StartErrorChecking">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ServoAxis.StartMovement">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ServoAxis.StartReset">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

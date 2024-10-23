@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="AxisControlManager" Id="{3e5ebfc2-681c-4ae3-a036-5c0655cacfed}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisControlManager IMPLEMENTS ITF_CyclicUpdate
+VAR
+	
+	// State machine for simple axis movement
+	// Aims to turn on an axis, command it do do a movement, then disable it
+	// Highest level state machine, called through ITF_CyclicUpdate interface
+	
+	_AxisControl			: ITF_AxisControl;
+	
+	_LocalState				: INT;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="METH" Id="{0d92d56e-fcfe-482b-b38f-45645c9c6c4b}" />
+    <Folder Name="PROP" Id="{a387be10-9f01-4e56-8702-062a84f8991b}" />
+    <Method Name="CyclicUpdate" Id="{06d98ec5-dbb4-49c7-8b84-5dd39fd63b62}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD CyclicUpdate : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// If interface has not been assigned, exit method
+IF _AxisControl = 0 THEN
+	CyclicUpdate := 0;
+	RETURN;
+END_IF
+
+// Turn axis on, execute its movement, turn axis off
+CASE _LocalState OF
+	
+	0:
+		_LocalState := 1;
+		
+	1:
+		IF _AxisControl.StartEnable() THEN
+			_LocalState := 2;
+		END_IF
+		
+	2:
+		IF _AxisControl.StartMovement() THEN
+			_LocalState := 3;
+		END_IF
+		
+	3:
+		IF _AxisControl.StartDisable() THEN
+			_LocalState := 4;
+		END_IF
+		
+	4:
+		_LocalState := 0;
+		CyclicUpdate := 1;
+		RETURN;
+	
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="TargetAxis" Id="{7456726e-743f-4fde-9336-91cd861d3ecf}" FolderPath="PROP\">
+      <Declaration><![CDATA[PROPERTY TargetAxis : ITF_AxisControl]]></Declaration>
+      <Get Name="Get" Id="{f0fc7c27-2619-40b2-a288-65cfef419435}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TargetAxis := _AxisControl;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4dc71fab-8c25-4464-be17-3992b826c34e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_AxisControl := TargetAxis;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="AxisControlManager">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisControlManager.CyclicUpdate">
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="22" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisControlManager.TargetAxis.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AxisControlManager.TargetAxis.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

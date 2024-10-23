@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{60d72888-e77e-434b-b850-2d20118771f8}</ProjectGuid>
+    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <DownloadApplicationInfo>true</DownloadApplicationInfo>
+    <WriteProductVersion>true</WriteProductVersion>
+    <GenerateTpy>false</GenerateTpy>
+    <Name>PLC_1</Name>
+    <ProgramVersion>3.1.4024.0</ProgramVersion>
+    <Application>{68df8748-a32d-425e-8131-6142b1f481c4}</Application>
+    <TypeSystem>{182fe9b8-9589-4f65-941d-f5b10f45462d}</TypeSystem>
+    <Implicit_Task_Info>{4b64180d-79c2-4ba8-913a-20be311da0c1}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{ece0db2c-bcc7-4e09-8428-458a21d3b0d0}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{aceb4919-f3f5-4991-aad6-5274ed6cd6b4}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{4ed6f905-2ba1-4745-86f5-46781f213a95}</LibraryReferences>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Axis Classes\DCAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Axis Classes\ParentAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Axis Classes\ServoAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Axis Classes\StepperAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Interfaces\ITF_AxisControl.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Interfaces\ITF_CyclicUpdate.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\State Managers\AxisControlManager.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\State Managers\StateProgram.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Project Planning\Class Diagram.TcCD">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DUTs" />
+    <Folder Include="GVLs" />
+    <Folder Include="POUs\OOP" />
+    <Folder Include="POUs\OOP\Axis Classes" />
+    <Folder Include="POUs\OOP\Interfaces" />
+    <Folder Include="POUs\OOP\State Managers" />
+    <Folder Include="Project Planning" />
+    <Folder Include="VISUs" />
+    <Folder Include="POUs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Tc2_Standard">
+      <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Standard</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_System">
+      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Module">
+      <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PLC 1.tmc">
+      <SubType>Content</SubType>
+    </None>
+  </ItemGroup>
+  <ProjectExtensions>
+    <PlcProjectOptions>
+      <XmlArchive>
+  <Data>
+    <o xml:space="preserve" t="OptionKey">
+      <v n="Name">"&lt;ProjectRoot&gt;"</v>
+      <d n="SubKeys" t="Hashtable" />
+      <d n="Values" t="Hashtable" />
+    </o>
+  </Data>
+  <TypeList>
+    <Type n="Hashtable">System.Collections.Hashtable</Type>
+    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+    <Type n="String">System.String</Type>
+  </TypeList>
+</XmlArchive>
+    </PlcProjectOptions>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="StepperAxis" Id="{189fccae-bee1-415c-bc25-decf2c850847}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK StepperAxis EXTENDS ParentAxis
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="METH" Id="{1672590b-6e8e-48bd-903c-afc155b4d60c}" />
+    <Folder Name="PROP" Id="{abbce322-1fff-4209-8310-f27aff23493b}" />
+    <Method Name="StartDisable" Id="{9a766d63-1e7a-462b-bf96-77b749b909ea}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartDisable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartDisable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartEnable" Id="{39dea5bd-28fb-4815-b413-9597368890df}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartEnable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartEnable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartErrorChecking" Id="{76d84d50-a797-4ecc-a398-58ec3e382b6d}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartErrorChecking : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartErrorChecking := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartMovement" Id="{d2cadbea-61fa-457c-b77f-e5833ab4054a}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartMovement : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartMovement := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartReset" Id="{4a77efdd-6417-4e2a-bc4b-1cef098af65b}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartReset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartReset := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="StepperAxis">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="StepperAxis.StartDisable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="StepperAxis.StartEnable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="StepperAxis.StartErrorChecking">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="StepperAxis.StartMovement">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="StepperAxis.StartReset">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

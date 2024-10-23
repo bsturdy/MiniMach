@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="DCAxis" Id="{dea0db48-55b5-4854-89d4-e9ebef2095e4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DCAxis EXTENDS ParentAxis
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="METH" Id="{e01e1756-1fa3-470d-8b52-d4b6bbbe0798}" />
+    <Folder Name="PROP" Id="{264c8613-12bc-4d33-9c4e-c9d79e1e4c31}" />
+    <Method Name="StartDisable" Id="{9cc790e2-ee6f-4695-94df-f544171a66ae}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartDisable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartDisable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartEnable" Id="{c3cc6cf9-0720-4604-91cc-52924082bae0}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartEnable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartEnable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartErrorChecking" Id="{b5fcf36a-71f5-4463-847d-7bd13b70b3b0}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartErrorChecking : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartErrorChecking := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartMovement" Id="{853e969d-f18f-4abd-9e39-6f5c4ce4b98a}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartMovement : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartMovement := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartReset" Id="{854ab7b6-9a61-47ad-84d0-ce102954eb45}" FolderPath="METH\">
+      <Declaration><![CDATA[METHOD StartReset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartReset := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="DCAxis">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="DCAxis.StartDisable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="DCAxis.StartEnable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="DCAxis.StartErrorChecking">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="DCAxis.StartMovement">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="DCAxis.StartReset">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

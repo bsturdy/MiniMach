@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ITF_CyclicUpdate" Id="{90bd103a-7016-4ff7-8d58-86cc61bdd8ac}">
+    <Declaration><![CDATA[INTERFACE ITF_CyclicUpdate
+
+// Uses HRESULT outputs for management of different scenarios, such as errors and non-completes
+
+//    0 - No Output / Execute In Progress
+//    1 - Execute Complete
+//    2 - Execute Failed, No Program Error, Object's Internal Timer Exceeded Limit.
+//   -1 - Execute Failed, Program Error
+]]></Declaration>
+    <Method Name="CyclicUpdate" Id="{30e66b99-5a80-463a-bcbf-e44a06ca53a7}">
+      <Declaration><![CDATA[METHOD CyclicUpdate : HRESULT
+
+// Uses HRESULT outputs for management of different scenarios, such as errors and non-completes
+
+//    0 - No Output / Execute In Progress
+//    1 - Execute Complete
+//    2 - Execute Failed, No Program Error, Object's Internal Timer Exceeded Limit.
+//   -1 - Execute Failed, Program Error
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

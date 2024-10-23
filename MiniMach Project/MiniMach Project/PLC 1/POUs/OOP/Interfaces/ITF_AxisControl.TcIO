@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ITF_AxisControl" Id="{6fe3ae28-7e76-4c34-a129-c82e0d553d3d}">
+    <Declaration><![CDATA[INTERFACE ITF_AxisControl
+]]></Declaration>
+    <Method Name="StartDisable" Id="{efe21f3f-d730-43f5-8bd4-c2955c924551}">
+      <Declaration><![CDATA[METHOD StartDisable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StartEnable" Id="{0e405275-e9b9-4cab-9a7f-0e2c01dca2e7}">
+      <Declaration><![CDATA[METHOD StartEnable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StartErrorChecking" Id="{d9df5444-9d7e-4b95-a07e-179926edb708}">
+      <Declaration><![CDATA[METHOD StartErrorChecking : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StartMovement" Id="{b6bc10fb-6ce4-4605-89e9-34bd268193bc}">
+      <Declaration><![CDATA[METHOD StartMovement : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="StartReset" Id="{abba968e-5e11-4a45-8524-942e86e5cc07}">
+      <Declaration><![CDATA[METHOD StartReset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

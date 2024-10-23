@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="ParentAxis" Id="{819c0fc3-3048-4b65-9596-1ddff471cc22}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this POU directly'}
+FUNCTION_BLOCK ParentAxis IMPLEMENTS ITF_AxisControl, ITF_CyclicUpdate
+VAR
+	
+	// DO NOT USE DIRECTLY 
+	// THIS IS A PARENT CLASS DESIGNED TO PROVIDE A BASE OF KEY VARIABLES / METHODS FOR SUB AXIS CLASSES
+	
+	_LocalState			: INT := 0;
+	_InternalCounter	: INT := 0;
+	
+	_IsBusyMoving		: BOOL := FALSE;
+	_IsBusyStopping		: BOOL := FALSE;
+	_IsReadyForCommand	: BOOL := FALSE;
+	_IsInError			: BOOL := FALSE;
+	_IsDoneWithCommand	: BOOL := FALSE;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// DO NOT USE DIRECTLY 
+// THIS IS A PARENT CLASS DESIGNED TO PROVIDE A BASE OF KEY VARIABLES / METHODS FOR SUB AXIS CLASSES]]></ST>
+    </Implementation>
+    <Folder Name="METH" Id="{9065e467-db2a-4ff1-919c-a2bed8632ec4}" />
+    <Folder Name="PROP" Id="{8f4b04f3-ce15-4083-bfcd-af944ad40776}" />
+    <Method Name="CyclicUpdate" Id="{a76f7c7e-e079-4023-9fb3-ec0d922c9bf3}" FolderPath="METH\">
+      <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this METHOD directly'}
+METHOD CyclicUpdate : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartDisable" Id="{56eb439f-d18d-4390-8764-08abcc7c06b0}" FolderPath="METH\">
+      <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this METHOD directly'}
+METHOD StartDisable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartDisable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartEnable" Id="{16a0593b-8451-40d9-aee4-d72a0c9450e4}" FolderPath="METH\">
+      <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this METHOD directly'}
+METHOD StartEnable : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartEnable := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartErrorChecking" Id="{e099fb98-62c2-4bb2-bb4b-4d2033d38bd7}" FolderPath="METH\">
+      <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this METHOD directly'}
+METHOD StartErrorChecking : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartErrorChecking := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartMovement" Id="{c1b941a6-8c20-4d78-95eb-da6a932feb1a}" FolderPath="METH\">
+      <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this METHOD directly'}
+METHOD StartMovement : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartMovement := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartReset" Id="{814fd21e-0534-46a5-96f8-965c297e8abe}" FolderPath="METH\">
+      <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this METHOD directly'}
+METHOD StartReset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StartReset := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="ParentAxis">
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="ParentAxis.CyclicUpdate">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ParentAxis.StartDisable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ParentAxis.StartEnable">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ParentAxis.StartErrorChecking">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ParentAxis.StartMovement">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+    <LineIds Name="ParentAxis.StartReset">
+      <LineId Id="4" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
